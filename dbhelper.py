@@ -50,7 +50,7 @@ class DBHelper:
 			with connection.cursor() as cursor:
 				cursor.execute(query, (category, date, latitude, longitude, description))
 				connection.commit()
-			except Exception as e:
-				print(e)
-			finally:
-				connection.close()
+		except Exception as e:
+			print(e)
+		finally:
+			connection.close()
