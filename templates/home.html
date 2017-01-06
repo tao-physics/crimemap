@@ -12,30 +12,44 @@
 
 			var map;
 			var marker;
-			var crime;
-			var i;
-			function initialize() {
+
+			function initialize(crimes) {
 
 				var mapOptions = {
 					center: new google.maps.LatLng(33.9533, -117.3962),//(Riverside CA USA)
 					//(-33.30578381949298, 26.523442268371582),
-					zoom: 15
+					zoom: 14
 				};
 				map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 				google.maps.event.addListener(map, 'click',
 					function(event){
 						placeMarker(event.latLng);
 						});
+
 				placeCrimes({{crimes | safe}});
 
-				// var infowindow = new google.maps.InfoWindow();
+				// var crimes1;
+				// var crime, i;
+				// crimes1={{crimes | safe}};
 
-				// google.maps.event.addListener(crime, 'click',(function(crime,i){
-				// 	return function(){
-				// 		infowindow.setContent(crimes[i].date+"\n"+crimes[i].category+"\n"+crimes[i].description);
-				// 		infowindow.open(map, crime);
-				// 	}
-				// })(crime, i));
+
+				// for(i=0; i<crimes1.length; i++){
+				// 	crime = new google.maps.Marker({
+				// 		position: new google.maps.LatLng(crimes1[i].latitude, crimes1[i].longitude),
+				// 		map: map,
+				// 		title: crimes1[i].date+"\n"+crimes1[i].category+"\n"+crimes1[i].description
+				// 	});
+
+				// 	var infowindow = new google.maps.InfoWindow();
+
+				// 	google.maps.event.addListener(crime, 'click',(function(crime,i){
+				// 		return function(){
+				// 			infowindow.setContent("<p>"+crimes1[i].date+"</p><p>"+crimes1[i].category+"</p><p>"+crimes1[i].description+"</p>");
+				// 			infowindow.open(map, crime);
+				// 		}
+				// 	})(crime, i));
+				// }
+
 			}
 
 
@@ -46,8 +60,16 @@
 						map: map,
 						title: crimes[i].date+"\n"+crimes[i].category+"\n"+crimes[i].description
 					});
+					var infowindow = new google.maps.InfoWindow();
+
+					google.maps.event.addListener(crime, 'click',(function(crime,i){
+						return function(){
+							infowindow.setContent("<p>"+crimes[i].date+"</p><p>"+crimes[i].category+"</p><p>"+crimes[i].description+"</p>");
+							infowindow.open(map, crime);
+						}
+					})(crime, i));
 				}
-//******************************
+
 			}
 
 			function placeMarker(location) {
@@ -67,7 +89,7 @@
 	</head>
 
 	<body onload="initialize()">
-		<h1>CrimeMap</h1>
+		<h1>CrimeMap <font size="-0.5">(By Tao Ren @ UCR)</font></h1>
 		<p>A map of recent criminal activity in the Riverside area.</p>
 
 		<div id="map-canvas" style="float: left; width:70%; height:500px"></div>
