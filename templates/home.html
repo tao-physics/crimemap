@@ -12,7 +12,10 @@
 
 			var map;
 			var marker;
+			var crime;
+			var i;
 			function initialize() {
+
 				var mapOptions = {
 					center: new google.maps.LatLng(33.9533, -117.3962),//(Riverside CA USA)
 					//(-33.30578381949298, 26.523442268371582),
@@ -23,6 +26,28 @@
 					function(event){
 						placeMarker(event.latLng);
 						});
+				placeCrimes({{crimes | safe}});
+
+				// var infowindow = new google.maps.InfoWindow();
+
+				// google.maps.event.addListener(crime, 'click',(function(crime,i){
+				// 	return function(){
+				// 		infowindow.setContent(crimes[i].date+"\n"+crimes[i].category+"\n"+crimes[i].description);
+				// 		infowindow.open(map, crime);
+				// 	}
+				// })(crime, i));
+			}
+
+
+			function placeCrimes(crimes) {
+				for(i=0; i<crimes.length; i++){
+					crime = new google.maps.Marker({
+						position: new google.maps.LatLng(crimes[i].latitude, crimes[i].longitude),
+						map: map,
+						title: crimes[i].date+"\n"+crimes[i].category+"\n"+crimes[i].description
+					});
+				}
+//******************************
 			}
 
 			function placeMarker(location) {
